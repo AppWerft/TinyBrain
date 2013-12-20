@@ -61,7 +61,7 @@ exports.create = function() {
 		backgroundColor : 'black',
 		color : '#00FF12',
 		width : Ti.UI.FILL,
-		hintText:'Message to the bot',
+		hintText:'Message to the TinyBrain-bot',
 		enableReturnKey : true,
 		height : '50dp'
 	});
