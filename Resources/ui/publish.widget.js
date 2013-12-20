@@ -17,19 +17,21 @@ exports.create = function(window) {
 		left : '10dp',
 		right : '10dp'
 	});
-	textArea.add(Ti.UI.createImageView({
-		bottom : 0,
-		right : 0,
+	androidView.add(textArea);
+	androidView.add(Ti.UI.createImageView({
+		bottom : '8dp',
+		right : '13dp',opacity:0.7,
 		touchEnabled : false,
-		width : '100dp',
+		width : '70dp',
+		height : Ti.UI.SIZE,
 		image : '/assets/cc.png'
 	}));
-	androidView.add(textArea);
+
 	var widget = Ti.UI.createAlertDialog({
 		androidView : androidView,
 		buttonNames : ['Cancel', 'No, thanks', 'Yes, I like!'],
 		message : 'Do you want to publish this talk?\n\nIn this case you can leave a message about.',
-		title : 'Question before exiting app'
+		title : ''//'Question before exiting app'
 	});
 	widget.addEventListener('click', function(_e) {
 		switch (_e.index) {

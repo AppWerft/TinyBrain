@@ -1,5 +1,5 @@
 exports.create = function(_args) {
-	var options = ['#30 Eliza', '#27 Dr. No'];
+	var options = ['#30 Eliza', '#29 Dr. Mabuse','#27 Dr. No'];
 	
 	var dialog = Ti.UI.createOptionDialog({
 		title : "Hello, I'm TinyBrїan. please choose a personalitzy for me.",
