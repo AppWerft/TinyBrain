@@ -1,6 +1,7 @@
 exports.create = function() {
 	var self = Ti.UI.createWindow({
 		backgroundColor : '#ccc',
+		exitOnClose : true
 	});
 	self.proxy = require('model/tinybrain');
 	self.open();
@@ -12,37 +13,39 @@ exports.create = function() {
 		chatInput.focus();
 	});
 	self.add(bg);
-	bg.animate({
-		duration : 5000,
-		opacity : 0,
-		top : -200,
-		transform : Ti.UI.create2DMatrix({
-			scale : 0.1,
-			rotate : 100
-		})
-	});
-	var colors = ['#ff0000', '#0000ff'];
+
+	var colors = ['#330000', '#3333cc'];
 	var colorndx = 0;
-	function writeMessage(foo) {
+	function writeMessage(foo, avatar) {
 		colorndx++;
-		container.add(Ti.UI.createLabel({
+		var div = Ti.UI.createView({
 			top : 0,
-			left : '10dp',
+			height : Ti.UI.SIZE,
+			width : Ti.UI.FILL
+		});
+		container.add(div);
+		if (avatar)
+			div.add(Ti.UI.createImageView({
+				top : '10dp',
+				left : '5dp',width:'80dp',
+				image : '/assets/' + avatar + '.png'
+			}));
+		div.add(Ti.UI.createLabel({
+			top : 0,
+			left : (avatar) ? '90dp' : '10dp',
 			right : '10dp',
 			color : colors[colorndx % 2],
 			textAlign : 'left',
 			width : Ti.UI.FILL,
 			font : {
-				fontSize : '23dp',
+				fontSize : '25dp',
 				fontFamily : 'AppleGaramond-Italic'
 			},
 			text : foo
 		}));
 	}
-
-
 	self.add(Ti.UI.createImageView({
-		top : '5dp',
+		top : '0dp',
 		width : Ti.UI.FILL,
 		image : '/assets/logo.png'
 	}));
@@ -61,7 +64,7 @@ exports.create = function() {
 		backgroundColor : 'black',
 		color : '#00FF12',
 		width : Ti.UI.FILL,
-		hintText:'Message to the TinyBrain-bot',
+		hintText : 'Message to the tinybraїn–bot',
 		enableReturnKey : true,
 		height : '50dp'
 	});
@@ -84,32 +87,45 @@ exports.create = function() {
 			chatInput.blur();
 			return;
 		}
-		writeMessage(chatInput.getValue());
+		writeMessage(chatInput.getValue(),'me');
 		self.proxy.talk({
 			message : chatInput.getValue(),
 			onload : function(_e) {
 				chatInput.setValue('');
 				console.log(_e.message);
-				writeMessage(_e.message);
+				writeMessage(_e.message, 'eliza');
 			}
 		});
 	});
-	self.proxy.talk({
-		message : '',
-		onload : function(_e) {
-			console.log(_e.message);
-			writeMessage(_e.message);
+	require('ui/select_chat.widget').create({
+		onclick : function(_e) {
+			bg.animate({
+				duration : 1000,
+				opacity : 0,
+				top : -200,
+				transform : Ti.UI.create2DMatrix({
+					scale : 0.1,
+					rotate : 100
+				})
+			});
+			self.proxy.talk({
+				message : _e,
+				onload : function(_e) {
+					writeMessage(_e.message, 'eliza');
+				}
+			});
 		}
 	});
+
 	Ti.Gesture.addEventListener('shake', function() {
 		Ti.Media.vibrate();
-		container.removeAllChildren();
-		self.proxy.talk({
-			message : '!restart',
-			onload : function(_e) {
-				writeMessage(_e.message);
-			}
-		});
+		/*container.removeAllChildren();
+		 self.proxy.talk({
+		 cmd : '!restart',
+		 onload : function(_e) {
+		 writeMessage(_e.message);
+		 }
+		 });*/
 	});
-
+	//  {cmd!publis  message: description}
 };

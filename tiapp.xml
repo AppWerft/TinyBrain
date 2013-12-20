@@ -30,7 +30,7 @@
     </iphone>
  <android xmlns:android="http://schemas.android.com/apk/res/android">
        <!-- <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="19"/>-->
-        <manifest android:versionCode="1" android:versionName="1.1"
+        <manifest android:versionCode="2" android:versionName="1.2eliza"
             package="de.appwerft.tinybrain" xmlns:android="http://schemas.android.com/apk/res/android">
             <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
             <uses-permission android:name="android.permission.READ_PHONE_STATE"/>

@@ -2,7 +2,7 @@ var endpoint = 'http://tinybrain.de:8080/tb-talk/talk.json.php';
 
 exports.talk = function(_args) {
 	if (Ti.Network.online == false) {
-		alert('You are offline');
+		alert('We need network connectivity to chat with bot.');
 		_args.onload({
 			success : false
 		});
@@ -22,7 +22,7 @@ exports.talk = function(_args) {
 			}
 		},
 		onerror : function(_e) {
-			alert(_e.error);
+			alert('We need network connectivity to chat with bot.');
 		}
 	});
 	client.open('POST', endpoint);
