@@ -13,23 +13,48 @@ exports.create = function() {
 		chatInput.focus();
 	});
 	self.add(bg);
-
 	var colors = ['#330000', '#3333cc'];
 	var colorndx = 0;
+
 	function writeMessage(foo, avatar) {
-		colorndx++;
+		var icon;
+		function takePhoto() {
+			require('model/camera').take({
+				onsuccess : function(_me) {
+					div.removeEventListener('click',takePhoto);
+					icon.setImage(_me);
+				}
+			});
+		}
 		var div = Ti.UI.createView({
 			top : 0,
 			height : Ti.UI.SIZE,
 			width : Ti.UI.FILL
 		});
 		container.add(div);
-		if (avatar)
-			div.add(Ti.UI.createImageView({
+		if (avatar == 'me') {
+			var me = self.proxy.getMe()
+			if (me == false) {
+				avatar = '/assets/me.png';
+				Ti.UI.createNotification({
+					message : 'Please click here to take a nice photo of you.'
+				}).show();
+				div.addEventListener('click', takePhoto);
+			} else {
+				avatar = me;
+			}
+		} else
+			avatar = '/assets/' + avatar + '.png';
+		colorndx++;
+		if (avatar) {
+			icon =Ti.UI.createImageView({
 				top : '10dp',
-				left : '5dp',width:'80dp',
-				image : '/assets/' + avatar + '.png'
-			}));
+				left : '5dp',
+				width : '80dp',
+				image : avatar
+			});
+			div.add(icon);
+		}	
 		div.add(Ti.UI.createLabel({
 			top : 0,
 			left : (avatar) ? '90dp' : '10dp',
@@ -43,14 +68,17 @@ exports.create = function() {
 			},
 			text : foo
 		}));
+		container.scrollToBottom();
 	}
+
+
 	self.add(Ti.UI.createImageView({
 		top : '0dp',
 		width : Ti.UI.FILL,
 		image : '/assets/logo.png'
 	}));
 	var container = Ti.UI.createScrollView({
-		top : '100dp',
+		top : '80dp',
 		bottom : '60dp',
 		width : Ti.UI.FILL,
 		contentWidth : Ti.UI.FILL,
@@ -87,7 +115,7 @@ exports.create = function() {
 			chatInput.blur();
 			return;
 		}
-		writeMessage(chatInput.getValue(),'me');
+		writeMessage(chatInput.getValue(), 'me');
 		self.proxy.talk({
 			message : chatInput.getValue(),
 			onload : function(_e) {
