@@ -11,10 +11,10 @@
     <persistent-wifi>false</persistent-wifi>
     <prerendered-icon>false</prerendered-icon>
     <statusbar-style>default</statusbar-style>
-    <statusbar-hidden>false</statusbar-hidden>
-    <fullscreen>false</fullscreen>
-    <navbar-hidden>false</navbar-hidden>
-    <analytics>true</analytics>
+    <statusbar-hidden>true</statusbar-hidden>
+    <fullscreen>true</fullscreen>
+    <navbar-hidden>true</navbar-hidden>
+    <analytics>false</analytics>
     <guid>7b8fef5b-965e-4b40-a3f3-441418c8af1e</guid>
     <property name="ti.ui.defaultunit" type="string">system</property>
     <iphone>
@@ -28,15 +28,37 @@
             <orientation>Ti.UI.LANDSCAPE_RIGHT</orientation>
         </orientations>
     </iphone>
-    <android xmlns:android="http://schemas.android.com/apk/res/android"/>
-    <mobileweb>
-        <precache/>
-        <splash>
-            <enabled>true</enabled>
-            <inline-css-images>true</inline-css-images>
-        </splash>
-        <theme>default</theme>
-    </mobileweb>
+ <android xmlns:android="http://schemas.android.com/apk/res/android">
+       <!-- <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="19"/>-->
+        <manifest android:versionCode="1" android:versionName="1.1"
+            package="de.appwerft.tinybrain" xmlns:android="http://schemas.android.com/apk/res/android">
+            <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
+            <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
+            <uses-permission android:name="android.permission.INTERNET"/>
+            <uses-permission android:name="android.permission.VIBRATE"/>
+            <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+            <application>
+                <!--<activity android:configChanges="keyboardHidden"
+				android:name="org.appcelerator.titanium.TiActivity" android:screenOrientation="portrait"/>
+				-->
+                <activity android:configChanges="keyboardHidden"
+                    android:name="org.appcelerator.titanium.TiTranslucentActivity"
+                    android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
+                <activity android:configChanges="keyboardHidden"
+                    android:name="org.appcelerator.titanium.TiModalActivity"
+                    android:screenOrientation="portrait" android:theme="@android:style/Theme.Translucent"/>
+                <activity android:configChanges="keyboardHidden"
+                    android:name="ti.modules.titanium.ui.TiTabActivity" android:screenOrientation="portrait"/>
+                <activity android:name="ti.modules.titanium.ui.android.TiPreferencesActivity"/>
+                <service android:exported="false" android:name="org.appcelerator.titanium.analytics.TiAnalyticsService"/>
+                <activity android:configChanges="keyboardHidden"
+                    android:name="ti.modules.titanium.ui.TiTabActivity" android:screenOrientation="portrait"/>
+                <!--<activity android:configChanges="keyboardHidden"
+				android:name="org.appcelerator.titanium.TiActivity" android:screenOrientation="portrait"/>-->
+            </application>
+        </manifest>
+    </android>
+
     <modules/>
     <deployment-targets>
         <target device="android">true</target>
