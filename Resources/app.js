@@ -1,1 +1,3 @@
-require('ui/start').create();
+(function() {
+	require('ui/start').create();
+})();
