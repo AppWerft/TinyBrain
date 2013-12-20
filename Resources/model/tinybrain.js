@@ -1,5 +1,8 @@
 var endpoint = 'http://tinybrain.de:8080/tb-talk/talk.json.php';
 
+
+
+
 exports.talk = function(_args) {
 	if (Ti.Network.online == false) {
 		alert('You are offline');

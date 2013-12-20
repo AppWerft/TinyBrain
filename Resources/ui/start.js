@@ -52,7 +52,8 @@ exports.create = function() {
 			console.log(_e.message);
 			container.add(Ti.UI.createLabel({
 				top : 0,
-				color : '#333',textAlign : 'left',
+				color : '#333',
+				textAlign : 'left',
 				width : Ti.UI.FILL,
 				font : {
 					fontSize : '15dp'
@@ -61,4 +62,13 @@ exports.create = function() {
 			}));
 		}
 	});
+	Ti.Gesture.addEventListener('shake', function() {
+		Ti.Media.vibrate();
+		require('model/tinybrain').talk({
+			message : '!restart',
+			onload : function(_e) {
+			}
+		});
+	});
+
 };
