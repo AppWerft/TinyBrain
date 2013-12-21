@@ -34,7 +34,7 @@ exports.create = function() {
 		backgroundColor : 'black',
 		color : '#00FF12',
 		width : Ti.UI.FILL,
-		hintText : 'Message to the tinybraïn–bot',
+		hintText : 'your message …',
 		enableReturnKey : true,
 		height : '50dp',
 		font : {
