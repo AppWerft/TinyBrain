@@ -4,7 +4,6 @@ exports.create = function() {
 		backgroundColor : 'white'
 	});
 	var UIChatEntry = require('ui/chatentry.widget');
-	Ti.App.TinyBrainProxy = require('model/tinybrain');
 	self.open();
 	var bg = Ti.UI.createImageView({
 		image : '/assets/brain.png',
@@ -54,8 +53,8 @@ exports.create = function() {
 		height : '40dp',
 		width : Ti.UI.SIZE
 	}));
-	require('ui/select_chat.widget').create({
-		onclick : function(_e) {
+	require('ui/selectbot.widget').create({
+		onselected : function(_id) {
 			bg.animate({
 				duration : 1000,
 				opacity : 0,
@@ -65,11 +64,11 @@ exports.create = function() {
 					rotate : 100
 				})
 			});
-			Ti.App.TinyBrainProxy.talk({
-				message : _e,
-				onload : function(_e) {
-					container.add(UIChatEntry.create(_e.message, 'eliza'));
-				}
+			Ti.App.TinyBrainProxy.api({
+				message : _id,
+				cmd : 'talk'
+			}, function(_e) {
+				container.add(UIChatEntry.create(_e.data,'bot'));
 			});
 		}
 	});
@@ -83,14 +82,14 @@ exports.create = function() {
 		}
 		container.add(UIChatEntry.create(chatInput.getValue(), 'me'));
 		container.scrollToBottom();
-		Ti.App.TinyBrainProxy.talk({
+		Ti.App.TinyBrainProxy.api({
 			message : chatInput.getValue(),
-			onload : function(_e) {
-				chatInput.setValue('');
-				container.add(UIChatEntry.create(_e.message, 'eliza'));
-				container.scrollToBottom();
+			cmd : 'talk'
+		}, function(_e) {
+			chatInput.setValue('');
+			container.add(UIChatEntry.create(_e.data,'bot'));
+			container.scrollToBottom();
 
-			}
 		});
 	});
 	self.addEventListener('androidback', function() {

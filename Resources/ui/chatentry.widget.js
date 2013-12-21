@@ -1,7 +1,7 @@
 var colors = ['#330000', '#3333cc'];
 	var colorndx = 0;
 
-exports.create = function(_message, _talker) {
+exports.create = function(_message,_talker) {
 	var avatar;
 	var div = Ti.UI.createView({
 		top : 0,
@@ -42,7 +42,7 @@ exports.create = function(_message, _talker) {
 		if (me == false) {
 			avatar = '/assets/me.png';
 			Ti.UI.createNotification({
-				message : 'Please click here to take a nice photo of you.'
+				message : 'Please click on avatar to take a nice photo of you.'
 			}).show();
 			div.addEventListener('click', takePhoto);
 		} else {
@@ -50,7 +50,7 @@ exports.create = function(_message, _talker) {
 			// Ti.Blob
 		}
 	} else
-		avatar = '/assets/' + _talker + '.png';
+		avatar = Ti.App.Properties.getString('avatar');
 	icon.setImage(avatar);
 	colorndx++;
 	return div;

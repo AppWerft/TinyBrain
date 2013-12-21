@@ -20,7 +20,8 @@ exports.create = function(window) {
 	androidView.add(textArea);
 	androidView.add(Ti.UI.createImageView({
 		bottom : '8dp',
-		right : '13dp',opacity:0.7,
+		right : '13dp',
+		opacity : 0.7,
 		touchEnabled : false,
 		width : '70dp',
 		height : Ti.UI.SIZE,
@@ -36,10 +37,10 @@ exports.create = function(window) {
 	widget.addEventListener('click', function(_e) {
 		switch (_e.index) {
 			case 2:
-				Ti.App.TinyBrainProxy.talk({
-					message : '!publish',
-					onload : exitApp
-				});
+				Ti.App.TinyBrainProxy.api({
+					cmd : 'publish',
+					message : ''
+				}, exitApp);
 				break;
 			case 1:
 				window.close();

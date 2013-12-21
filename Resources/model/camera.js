@@ -1,8 +1,6 @@
 exports.take = function(_args) {
 	Ti.Media.showCamera({
 		success : function(event) {
-			// called when media returned from the camera
-			Ti.API.debug('Our type was: ' + event.mediaType);
 			if (event.mediaType == Ti.Media.MEDIA_TYPE_PHOTO) {
 				require('model/tinybrain').saveMe(event.media);
 				_args.onsuccess(event.media);
