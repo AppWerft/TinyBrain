@@ -1,31 +1,29 @@
-var colors = ['#330000', '#3333cc'];
-	var colorndx = 0;
-
-exports.create = function(_message,_talker) {
+exports.create = function(_message, _talker) {
 	var avatar;
+	if (!_message || !_talker)
+		return div;
 	var div = Ti.UI.createView({
 		top : 0,
 		height : Ti.UI.SIZE,
-		width : Ti.UI.FILL
+		width : Ti.UI.FILL,
+		backgroundColor : (_talker == 'me') ? 'black' : 'white'
 	});
-	if (!_message || !_talker)
-		return div;
 	var icon = Ti.UI.createImageView({
-		top : '10dp',
+		top : '5dp',
 		left : '5dp',
 		width : '75dp',
 	});
 	div.add(icon);
 	div.add(Ti.UI.createLabel({
-		top : 0,
+		top : '10dp',
 		left : '95dp',
 		right : '10dp',
-		color : colors[colorndx % 2],
+		color : (_talker == 'me') ? '#00FF12' : '#333',
 		textAlign : 'left',
 		width : Ti.UI.FILL,
 		font : {
-			fontSize : '25dp',
-			fontFamily : 'AppleGaramond-Italic'
+			fontSize : (_talker == 'me') ? '20dp' : '24dp',
+			fontFamily : (_talker == 'me') ? 'SourceCodePro-Medium' : 'AppleGaramond-Italic'
 		},
 		text : _message
 	}));
@@ -45,13 +43,10 @@ exports.create = function(_message,_talker) {
 				message : 'Please click on avatar to take a nice photo of you.'
 			}).show();
 			div.addEventListener('click', takePhoto);
-		} else {
+		} else
 			avatar = me;
-			// Ti.Blob
-		}
 	} else
 		avatar = Ti.App.Properties.getString('avatar');
 	icon.setImage(avatar);
-	colorndx++;
 	return div;
-};
+}; 

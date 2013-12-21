@@ -39,7 +39,7 @@ exports.create = function(window) {
 			case 2:
 				Ti.App.TinyBrainProxy.api({
 					cmd : 'publish',
-					message : ''
+					message : textArea.getValue()
 				}, exitApp);
 				break;
 			case 1:

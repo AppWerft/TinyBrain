@@ -39,7 +39,7 @@ exports.create = function() {
 		height : '50dp',
 		font : {
 			fontSize : '20dp',
-			fontFamily : 'AppleGaramond-Italic'
+			fontFamily : 'SourceCodePro-Medium'
 		},
 	});
 	self.add(chatInput);
@@ -68,7 +68,7 @@ exports.create = function() {
 				message : _id,
 				cmd : 'talk'
 			}, function(_e) {
-				container.add(UIChatEntry.create(_e.data,'bot'));
+				container.add(UIChatEntry.create(_e.data, 'bot'));
 			});
 		}
 	});
@@ -87,14 +87,15 @@ exports.create = function() {
 			cmd : 'talk'
 		}, function(_e) {
 			chatInput.setValue('');
-			container.add(UIChatEntry.create(_e.data,'bot'));
+			container.add(UIChatEntry.create(_e.data, 'bot'));
 			container.scrollToBottom();
 
 		});
 	});
 	self.addEventListener('androidback', function() {
 		var res = require('ui/publish.widget').create(self);
-
 	});
-	//  {cmd!publis  message: description}
+	Ti.Android.currentActivity.onPrepareOptionsMenu = function(e) {
+		require('ui/menu.widget').create();
+	};
 };

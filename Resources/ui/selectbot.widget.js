@@ -7,7 +7,7 @@ exports.create = function(_args) {
 		if (_e.success) {
 			bots = _e.data;
 			for (var i = 0; i < _e.data.length; i++) {
-				options.push(bots.id + ' ' + bots.name);
+				options.push(bots[i].id + ' ' + bots[i].name);
 			}
 		}
 		var dialog = Ti.UI.createOptionDialog({
