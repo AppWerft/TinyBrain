@@ -1,3 +1,3 @@
 (function() {
-	require('ui/start').create();
+	require('ui/main.window').create();
 })();
