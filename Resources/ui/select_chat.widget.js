@@ -10,6 +10,6 @@ exports.create = function(_args) {
 			var res = options[_e.index].match(/^(.*?)\s/);
 			_args.onclick(res[1]);
 		}	
-	});
+	});   
 	dialog.show();
 };
