@@ -96,6 +96,7 @@ exports.create = function() {
 		var res = require('ui/publish.widget').create(self);
 	});
 	Ti.Android.currentActivity.onPrepareOptionsMenu = function(e) {
+		chatInput.blur();
 		require('ui/menu.widget').create();
 	};
 };
