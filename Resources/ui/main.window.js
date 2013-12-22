@@ -4,9 +4,9 @@ exports.create = function() {
 		navBarHidden : true,
 		backgroundColor : 'white',
 	});
-	var abextras = require('com.alcoapps.actionbarextras');
 	mainWindow.addEventListener("open", function() {
 		if (Ti.Platform.osname === "android") {
+			var abextras = require('com.alcoapps.actionbarextras');
 			abextras.setExtras({
 				title : 'This is the title',
 				subtitle : 'This is the subtitle'
