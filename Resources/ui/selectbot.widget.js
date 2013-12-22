@@ -24,5 +24,4 @@ exports.create = function(_args) {
 		});
 		dialog.show();
 	});
-
 };

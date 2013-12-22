@@ -8,12 +8,12 @@ exports.create = function(window) {
 	}
 
 	var androidView = Ti.UI.createView({
-		height : '150dp',
+		height : '110dp',
 		left : '5dp',
 		right : '5dp'
 	});
 	var textArea = Ti.UI.createTextArea({
-		height : '150dp',
+		height : '110dp',
 		left : '10dp',
 		right : '10dp'
 	});
@@ -37,6 +37,9 @@ exports.create = function(window) {
 	widget.addEventListener('click', function(_e) {
 		switch (_e.index) {
 			case 2:
+				Ti.UI.createNotification({
+					message : 'Talk successful published!'
+				}).show();
 				Ti.App.TinyBrainProxy.api({
 					cmd : 'publish',
 					message : textArea.getValue()
