@@ -1,8 +1,28 @@
 exports.create = function() {
 	var mainWindow = Ti.UI.createWindow({
 		exitOnClose : true,
-		navBarHidden : false,
+		navBarHidden : true,
 		backgroundColor : 'white',
+	});
+	var abextras = require('com.alcoapps.actionbarextras');
+	mainWindow.addEventListener("open", function() {
+		if (Ti.Platform.osname === "android") {
+			abextras.setExtras({
+				title : 'This is the title',
+				subtitle : 'This is the subtitle'
+			});
+			var activity = mainWindow.activity;
+			if (activity) {
+				var ab = activity.actionBar;
+				if (ab) {
+					ab.displayHomeAsUp = true
+				} else {
+					alert('no actionbar');
+				}
+			} else {
+				alert('no activity');
+			}
+		}
 	});
 	var UIChatEntry = require('ui/chatentry.widget');
 	mainWindow.open();
@@ -20,7 +40,7 @@ exports.create = function() {
 		image : '/assets/logo.png'
 	}));
 	var container = Ti.UI.createScrollView({
-		top : '75dp',
+		top : '0dp',
 		bottom : '60dp',
 		width : Ti.UI.FILL,
 		borderRadius : '5dp',
@@ -96,8 +116,5 @@ exports.create = function() {
 	mainWindow.addEventListener('androidback', function() {
 		var res = require('ui/publish.widget').create(mainWindow);
 	});
-	Ti.Android.currentActivity.onPrepareOptionsMenu = function(e) {
-		chatInput.blur();
-		require('ui/menu.widget').create();
-	};
+
 };

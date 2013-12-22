@@ -57,7 +57,9 @@
             </application>
         </manifest>
     </android>
-    <modules/>
+    <modules>
+        <module platform="android">com.alcoapps.actionbarextras</module>
+    </modules>
     <deployment-targets>
         <target device="android">true</target>
         <target device="blackberry">false</target>
@@ -66,5 +68,5 @@
         <target device="mobileweb">false</target>
         <target device="tizen">false</target>
     </deployment-targets>
-    <sdk-version>3.1.3.GA</sdk-version>
+    <sdk-version>3.1.4.v20131030141610</sdk-version>
 </ti:app>
