@@ -1,7 +1,7 @@
 exports.create = function(_args) {
 	var dialog = Ti.UI.createOptionDialog({
 		title : "… more brain shit",
-		options : ['Play image video of developer', 'Go to website']
+		options : ['developer video', 'project website']
 	});
 	dialog.addEventListener('click', function(_e) {
 		switch (_e.index) {

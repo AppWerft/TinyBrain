@@ -1,19 +1,20 @@
 exports.create = function() {
-	var self = Ti.UI.createWindow({
+	var mainWindow = Ti.UI.createWindow({
 		exitOnClose : true,
-		backgroundColor : 'white'
+		navBarHidden : false,
+		backgroundColor : 'white',
 	});
 	var UIChatEntry = require('ui/chatentry.widget');
-	self.open();
+	mainWindow.open();
 	var bg = Ti.UI.createImageView({
 		image : '/assets/brain.png',
 		width : Ti.UI.FILL
 	});
-	self.add(bg);
-	self.addEventListener('click', function() {
+	mainWindow.add(bg);
+	mainWindow.addEventListener('click', function() {
 		chatInput.focus();
 	});
-	self.add(Ti.UI.createImageView({
+	mainWindow.add(Ti.UI.createImageView({
 		top : 0,
 		width : Ti.UI.FILL,
 		image : '/assets/logo.png'
@@ -28,13 +29,13 @@ exports.create = function() {
 		layout : 'vertical',
 		contentHeight : Ti.UI.SIZE
 	});
-	self.add(container);
+	mainWindow.add(container);
 	var chatInput = Ti.UI.createTextField({
 		bottom : 0,
 		backgroundColor : 'black',
 		color : '#00FF12',
 		width : Ti.UI.FILL,
-		hintText : 'your message …',
+		hintText : 'Your question …',
 		enableReturnKey : true,
 		height : '50dp',
 		font : {
@@ -42,8 +43,8 @@ exports.create = function() {
 			fontFamily : 'SourceCodePro-Medium'
 		},
 	});
-	self.add(chatInput);
-	self.add(Ti.UI.createImageView({
+	mainWindow.add(chatInput);
+	mainWindow.add(Ti.UI.createImageView({
 		right : '15dp',
 		bottom : '5dp',
 		opacity : 0.5,
@@ -92,8 +93,8 @@ exports.create = function() {
 
 		});
 	});
-	self.addEventListener('androidback', function() {
-		var res = require('ui/publish.widget').create(self);
+	mainWindow.addEventListener('androidback', function() {
+		var res = require('ui/publish.widget').create(mainWindow);
 	});
 	Ti.Android.currentActivity.onPrepareOptionsMenu = function(e) {
 		chatInput.blur();
