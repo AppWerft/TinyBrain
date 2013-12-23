@@ -30,7 +30,7 @@
     </iphone>
     <android xmlns:android="http://schemas.android.com/apk/res/android">
         <!-- <uses-sdk android:minSdkVersion="10" android:targetSdkVersion="19"/>-->
-        <manifest android:versionCode="10" android:versionName="1.10"
+        <manifest android:versionCode="11" android:versionName="1.11"
             package="de.appwerft.tinybrain" xmlns:android="http://schemas.android.com/apk/res/android">
             <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
             <uses-permission android:name="android.permission.INTERNET"/>

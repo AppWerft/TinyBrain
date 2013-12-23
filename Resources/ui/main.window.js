@@ -69,7 +69,7 @@ exports.create = function() {
 				textInput = require('ui/input.widget').create();
 				mainWindow.add(textInput);
 				textInput.addEventListener('addEntry', function(_data) {
-					scrollContainer.add(require('ui/chatentry.widget').create(_data));
+					scrollContainer.add(require('ui/chatentry.widget').create(_data.message,_data.talker));
 				});
 			});
 		}

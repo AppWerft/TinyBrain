@@ -41,14 +41,18 @@ exports.api = function(_options, _callback) {
 		onerror : function(_e) {
 		}
 	});
-	client.setRequestHeader('Content-Type', 'text/json');
+	client.setRequestHeader('Accept', 'application/json');
 	switch (_options.cmd) {
 		case 'listbots':
 			client.open('GET', endpoint + '?cmd=listbots', true);
 			break;
 		case 'init':
-			client.open('GET', endpoint + '?cmd=talk&message=' + _options.message, true);
+		case'talk':
+			client.open('GET', endpoint + '?cmd=talk&message=' + encodeURI(_options.message), true);
 			break;
+		case 'publish':
+			client.open('GET', endpoint + '?cmd=publish&message=' + encodeURI(_options.message), true);
+
 		default:
 			client.open('POST', endpoint, true);
 	}
