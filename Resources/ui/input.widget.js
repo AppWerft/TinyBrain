@@ -1,18 +1,27 @@
 exports.create = function() {
-	console.log('Info: starting/initializing textinput on bottom');
-	var widget = Ti.UI.createTextField({
+	console.log('Info: starting/initializing textwidget.input on bottom');
+	var widget = Ti.UI.createView({
 		bottom : 0,
-		backgroundColor : 'black',
+		backgroundColor : '#444',
 		color : '#00FF12',
+		width : Ti.UI.FILL,
+		height : '50dp',
+		borderRadius : '5dp',
+	});
+	widget.input = Ti.UI.createTextField({
+		bottom : 0,
+		backgroundColor : '#444',
+		color : '#00FF12',
+		borderRadius : '5dp',
 		width : Ti.UI.FILL,
 		hintText : 'Your question …',
 		enableReturnKey : true,
-		height : '50dp',
 		font : {
 			fontSize : '22dp',
 			fontFamily : 'SourceCodePro-Medium'
-		},
+		}
 	});
+	widget.add(widget.input);
 	widget.add(Ti.UI.createImageView({
 		right : '15dp',
 		bottom : '5dp',
@@ -24,31 +33,30 @@ exports.create = function() {
 		height : '40dp',
 		width : Ti.UI.SIZE
 	}));
-	widget.addEventListener('return', function() {
-		console.log('Info: return pressed: ' + widget.getValue());
-		if (widget.getValue().length < 1) {
+	widget.input.addEventListener('return', function() {
+		console.log('Info: return pressed: ' + widget.input.getValue());
+		if (widget.input.getValue().length < 1) {
 			Ti.Android && Ti.UI.createNotification({
 				message : 'Your text is too short … are you sociophobe?'
 			}).show();
-			widget.blur();
-			;
+			widget.input.blur();
+
 		} else {
 			widget.fireEvent('addEntry', {
-				message : widget.getValue(),
+				message : widget.input.getValue(),
 				talker : 'me'
 			});
 			Ti.App.TinyBrainProxy.api({
-				message : widget.getValue(),
+				message : widget.input.getValue(),
 				cmd : 'talk'
 			}, function(_e) {
-				widget.setValue('');
+				widget.input.setValue('');
 				widget.fireEvent('addEntry', {
 					message : _e.data,
 					talker : 'bot'
 				});
-				//scrollContainer.scrollToBottom();
+		
 			});
-			
 		}
 	});
 	return widget;

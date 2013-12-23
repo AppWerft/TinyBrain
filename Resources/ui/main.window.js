@@ -1,5 +1,5 @@
 exports.create = function() {
-	var textInput, mainWindow, topContainer, scrollContainer;
+	var mainWindow, topContainer, scrollContainer;
 	mainWindow = Ti.UI.createWindow({
 		exitOnClose : true,
 		fullscreen : true,
@@ -11,7 +11,7 @@ exports.create = function() {
 			var activity = mainWindow.activity;
 			if (activity) {
 				activity.onPrepareOptionsMenu = function(e) {
-					mainWindow.chatInput.blur();
+					mainWindow.chatInput.input.blur();
 					require('ui/menu.widget').create();
 				};
 				//activity.actionBar.hide();
@@ -26,7 +26,7 @@ exports.create = function() {
 	});
 	topContainer = Ti.UI.createView({
 		layout : 'vertical',
-		bottom : '60dp',
+		bottom : '50dp',
 		backgroundColor : 'white'
 	});
 	mainWindow.add(topContainer);
@@ -66,10 +66,11 @@ exports.create = function() {
 				cmd : 'init'
 			}, function(_e) {
 				scrollContainer.add(require('ui/chatentry.widget').create(_e.data, 'bot'));
-				textInput = require('ui/input.widget').create();
-				mainWindow.add(textInput);
-				textInput.addEventListener('addEntry', function(_data) {
+				mainWindow.chatInput = require('ui/input.widget').create();
+				mainWindow.add(mainWindow.chatInput);
+				mainWindow.chatInput.addEventListener('addEntry', function(_data) {
 					scrollContainer.add(require('ui/chatentry.widget').create(_data.message,_data.talker));
+					scrollContainer.scrollToBottom();
 				});
 			});
 		}
