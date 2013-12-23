@@ -10,6 +10,10 @@ exports.create = function() {
 		if (Ti.Platform.osname === "android") {
 			var activity = mainWindow.activity;
 			if (activity) {
+				/*require('com.alcoapps.actionbarextras').setExtras({
+					title : 'This is the title',
+					subtitle : 'This is the subtitle'
+				});*/
 				activity.onPrepareOptionsMenu = function(e) {
 					mainWindow.chatInput.input.blur();
 					require('ui/menu.widget').create();
@@ -69,7 +73,7 @@ exports.create = function() {
 				mainWindow.chatInput = require('ui/input.widget').create();
 				mainWindow.add(mainWindow.chatInput);
 				mainWindow.chatInput.addEventListener('addEntry', function(_data) {
-					scrollContainer.add(require('ui/chatentry.widget').create(_data.message,_data.talker));
+					scrollContainer.add(require('ui/chatentry.widget').create(_data.message, _data.talker));
 					scrollContainer.scrollToBottom();
 				});
 			});
