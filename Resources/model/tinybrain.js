@@ -1,12 +1,5 @@
 var endpoint = 'http://tinybrain.de:8080/tb-talk/talk.json.php';
-var progressIndicator = Ti.UI.Android.createProgressIndicator({
-  message: 'Loading from bot …',
-  location: Titanium.UI.Android.PROGRESS_INDICATOR_STATUS_BAR,
-  type: Ti.UI.Android.PROGRESS_INDICATOR_DETERMINANT,
-  cancelable: true,
-  min: 0,
-  max: 10
-});
+
 exports.getMe = function() {
 	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'me.png');
 	if (!f.exists())
@@ -31,12 +24,12 @@ exports.api = function(_options, _callback) {
 			success : false
 		});
 	}
-	progressIndicator.show()
 	var client = Ti.Network.createHTTPClient({
 		onload : function() {
-			progressIndicator.hide();
+			console.log('Info: responseText from API:\n' + this.responseText + '\n=========');
 			try {
 				var answer = JSON.parse(this.responseText);
+				console.log('Info: successful parsed');
 				_callback(answer);
 			} catch(E) {
 				_callback({
@@ -46,10 +39,18 @@ exports.api = function(_options, _callback) {
 			}
 		},
 		onerror : function(_e) {
-			progressIndicator.hide();
-			alert('We need network connectivity to chat with bot.');
 		}
 	});
-	client.open('POST', endpoint);
+	client.setRequestHeader('Content-Type', 'text/json');
+	switch (_options.cmd) {
+		case 'listbots':
+			client.open('GET', endpoint + '?cmd=listbots', true);
+			break;
+		case 'init':
+			client.open('GET', endpoint + '?cmd=talk&message=' + _options.message, true);
+			break;
+		default:
+			client.open('POST', endpoint, true);
+	}
 	client.send(_options);
 };

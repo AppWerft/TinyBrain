@@ -1,19 +1,14 @@
 exports.create = function() {
-	var mainWindow = Ti.UI.createWindow({
+	var textInput, mainWindow, topContainer, scrollContainer;
+	mainWindow = Ti.UI.createWindow({
 		exitOnClose : true,
 		fullscreen : true,
 		navBarHidden : true,
-		backgroundColor : 'white',
+		backgroundColor : 'black',
 	});
 	mainWindow.addEventListener("open", function() {
 		if (Ti.Platform.osname === "android") {
 			var activity = mainWindow.activity;
-			/* var abextras = require('com.alcoapps.actionbarextras');
-			 if (abextras)
-			 abextras.setExtras({ // this crash the app if abextras defined
-			 title : 'This is the title',
-			 subtitle : 'This is the subtitle'
-			 });*/
 			if (activity) {
 				activity.onPrepareOptionsMenu = function(e) {
 					mainWindow.chatInput.blur();
@@ -23,16 +18,16 @@ exports.create = function() {
 			}
 		}
 	});
-	var UIChatEntry = require('ui/chatentry.widget');
 	mainWindow.open();
 	mainWindow.bg = Ti.UI.createImageView({
 		image : '/assets/brain.png',
 		width : Ti.UI.FILL,
 		zIndex : 999
 	});
-	var topContainer = Ti.UI.createView({
+	topContainer = Ti.UI.createView({
 		layout : 'vertical',
-		bottom : '60dp'
+		bottom : '60dp',
+		backgroundColor : 'white'
 	});
 	mainWindow.add(topContainer);
 	var logo = Ti.UI.createImageView({
@@ -45,7 +40,7 @@ exports.create = function() {
 		require('ui/menu.widget').create();
 	});
 	topContainer.add(logo);
-	var scrollContainer = Ti.UI.createScrollView({
+	scrollContainer = Ti.UI.createScrollView({
 		top : 0,
 		bottom : 0,
 		width : Ti.UI.FILL,
@@ -55,21 +50,11 @@ exports.create = function() {
 		contentHeight : Ti.UI.SIZE
 	});
 	topContainer.add(scrollContainer);
-	mainWindow.add(Ti.UI.createImageView({
-		right : '15dp',
-		bottom : '5dp',
-		opacity : 0.5,
-		touchEnabled : false,
-		bubbleParent : true,
-		image : '/assets/kb.png',
-		height : '40dp',
-		width : Ti.UI.SIZE
-	}));
 	require('ui/selectbot.widget').create({
 		onselected : function(_id) {
 			console.log('Info: bot selected ' + _id);
 			mainWindow.bg.animate({
-				duration : 1000,
+				duration : 700,
 				opacity : 0,
 				top : -200,
 				transform : Ti.UI.create2DMatrix({
@@ -78,42 +63,14 @@ exports.create = function() {
 			});
 			Ti.App.TinyBrainProxy.api({
 				message : _id,
-				cmd : 'talk'
+				cmd : 'init'
 			}, function(_e) {
-				mainWindow.chatInput = Ti.UI.createTextField({
-					bottom : 0,
-					backgroundColor : 'black',
-					color : '#00FF12',
-					width : Ti.UI.FILL,
-					hintText : 'Your question …',
-					enableReturnKey : true,
-					height : '50dp',
-					font : {
-						fontSize : '22dp',
-						fontFamily : 'SourceCodePro-Medium'
-					},
+				scrollContainer.add(require('ui/chatentry.widget').create(_e.data, 'bot'));
+				textInput = require('ui/input.widget').create();
+				mainWindow.add(textInput);
+				textInput.addEventListener('addEntry', function(_data) {
+					scrollContainer.add(require('ui/chatentry.widget').create(_data));
 				});
-				mainWindow.chatInput.addEventListener('return', function() {
-					if (mainWindow.chatInput.getValue().length < 1) {
-						Ti.Android && Ti.UI.createNotification({
-							message : 'Your text is too short … are you sociophobe?'
-						}).show();
-						mainWindow.chatInput.blur();
-						return;
-					}
-					scrollContainer.add(UIChatEntry.create(mainWindow.chatInput.getValue(), 'me'));
-					Ti.App.TinyBrainProxy.api({
-						message : mainWindow.chatInput.getValue(),
-						cmd : 'talk'
-					}, function(_e) {
-						mainWindow.chatInput.setValue('');
-						scrollContainer.add(UIChatEntry.create(_e.data, 'bot'));
-						scrollContainer.scrollToBottom();
-					});
-				});
-				mainWindow.add(mainWindow.chatInput);
-				console.log('Info: chat started');
-				scrollContainer.add(UIChatEntry.create(_e.data, 'bot'));
 			});
 		}
 	});

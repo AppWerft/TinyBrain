@@ -15,7 +15,13 @@ exports.create = function(window) {
 	var textArea = Ti.UI.createTextArea({
 		height : '110dp',
 		left : '10dp',
-		right : '10dp'
+		color : '#00FF12',
+		font : {
+			fontSize : '22dp',
+			fontFamily : 'SourceCodePro-Medium'
+		},
+		right : '10dp',
+		backgroundColor : 'black'
 	});
 	androidView.add(textArea);
 	androidView.add(Ti.UI.createImageView({
