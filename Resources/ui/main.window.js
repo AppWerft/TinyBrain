@@ -1,27 +1,42 @@
 exports.create = function() {
 	var mainWindow, topContainer, scrollContainer;
-	mainWindow = Ti.UI.createWindow({
-		exitOnClose : true,
-		fullscreen : true,
-		navBarHidden : true,
-		backgroundColor : 'black',
+	var abextras = require('com.alcoapps.actionbarextras');
+	mainWindow = Titanium.UI.createWindow({
+		backgroundColor : '#fff',
+		navBarHidden : false,
+		fullscreen : true
 	});
-	mainWindow.addEventListener("open", function() {
-		if (Ti.Platform.osname === "android") {
-			var activity = mainWindow.activity;
-			if (activity) {
-				/*require('com.alcoapps.actionbarextras').setExtras({
-					title : 'This is the title',
-					subtitle : 'This is the subtitle'
-				});*/
-				activity.onPrepareOptionsMenu = function(e) {
-					mainWindow.chatInput.input.blur();
-					require('ui/menu.widget').create();
-				};
-				//activity.actionBar.hide();
+	mainWindow.addEventListener('open', function(e) {
+		abextras.setExtras({
+			title : 'TinyBrain',
+			subtitle : 'Chat with our experts'
+		});
+		var activity = mainWindow.activity;
+		if (activity) {
+			activity.onCreateOptionsMenu = function(e) {
+				var menu = e.menu;
+				for ( i = 0; i <= 3; i++) {
+					var menuItem = menu.add({
+						title : "Option " + i,
+						icon : Ti.Android.R.drawable.ic_menu_save,
+						showAsAction : Ti.Android.SHOW_AS_ACTION_NEVER
+					});
+					menuItem.addEventListener("click", function(e) {
+						Ti.API.info("Action Item " + i + " Clicked!");
+					});
+				}
+			};
+			var ab = activity.actionBar;
+			if (ab) {
+				ab.displayHomeAsUp = true;
+			} else {
+				alert('no actionbar');
 			}
+		} else {
+			alert('no activity');
 		}
 	});
+
 	mainWindow.open();
 	mainWindow.bg = Ti.UI.createImageView({
 		image : '/assets/brain.png',
@@ -56,6 +71,10 @@ exports.create = function() {
 	topContainer.add(scrollContainer);
 	require('ui/selectbot.widget').create({
 		onselected : function(_id) {
+			abextras.setExtras({
+			title : 'TinyBrain',
+			subtitle : 'Chat with our expert '+ _id
+		});
 			console.log('Info: bot selected ' + _id);
 			mainWindow.bg.animate({
 				duration : 700,
