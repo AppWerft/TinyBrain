@@ -15,21 +15,24 @@ exports.saveMe = function(me) {
 	f.write(me);
 };
 
-exports.killMe = function(me) {
-	if (!me)
-		return;
+exports.killMe = function() {
 	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'me.png');
-	f.deleteFile(me);
+	if (f.exists())
+		f.deleteFile();
 	Ti.App.fireEvent('app:killme', {});
 };
 
 exports.speak = function(text) {
-	var url = 'http://translate.google.com/translate_tts?tl=en&q=' + encodeURI(text);
-	var audioPlayer = Ti.Media.createAudioPlayer({
-		url : url,
-		allowBackground : true
-	});
-	audioPlayer.start();
+	var url = 'http://translate.google.com/translate_tts?tl=en&q=';
+	text = text.replace(/\.\.\./,'…');
+	var parts = text.split('.');
+	console.log(parts);
+	if (parts.length>2) parts.shift();
+	var query = encodeURI(parts.join());
+	console.log('Info: try to speak: ' + query);
+	audioPlayer = Ti.Media.createAudioPlayer({
+		url : url + query
+	}).start();
 };
 
 exports.api = function(_options, _callback) {

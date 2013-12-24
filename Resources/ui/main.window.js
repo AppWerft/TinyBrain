@@ -45,15 +45,18 @@ exports.create = function() {
 			mainWindow.bg.animate({
 				duration : 700,
 				opacity : 0,
-				top : -200,
+				top : '-200dp',
 				transform : Ti.UI.create2DMatrix({
-					scale : 0.1
+					scale : 0.02
 				})
+			}, function() {
+				mainWindow.remove(mainWindow.bg);
 			});
 			Ti.App.TinyBrainProxy.api({
 				message : _id,
 				cmd : 'init'
 			}, function(_e) {
+				Ti.App.TinyBrainProxy.speak(_e.data);
 				scrollContainer.add(require('ui/chatentry.widget').create(_e.data, 'bot'));
 				mainWindow.chatInput = require('ui/input.widget').create();
 				mainWindow.add(mainWindow.chatInput);

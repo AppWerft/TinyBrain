@@ -1,10 +1,6 @@
 module.exports = function(_e) {
 	var window = _e.source;
-	var abextras = require('com.alcoapps.actionbarextras');
-	abextras.setExtras({
-		title : 'TinyBrain',
-		subtitle : 'Chat with our experts'
-	});
+	
 	var activity = window.activity;
 	if (activity) {
 		activity.onCreateOptionsMenu = function(e) {
@@ -36,6 +32,11 @@ module.exports = function(_e) {
 				title : 'Kill my photo!',
 				onclick : function() {
 					Ti.App.TinyBrainProxy.killMe();
+				}
+			}, {
+				title : 'Changing of avatar',
+				onclick : function() {
+					require('ui/avatar_select.widget').create();
 				}
 			}];
 
