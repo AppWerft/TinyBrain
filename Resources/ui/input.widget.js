@@ -51,6 +51,7 @@ exports.create = function() {
 				cmd : 'talk'
 			}, function(_e) {
 				widget.input.setValue('');
+				Ti.App.TinyBrainProxy.speak(_e.data);
 				widget.fireEvent('addEntry', {
 					message : _e.data,
 					talker : 'bot'

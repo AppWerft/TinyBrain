@@ -1,42 +1,12 @@
 exports.create = function() {
 	var mainWindow, topContainer, scrollContainer;
-	var abextras = require('com.alcoapps.actionbarextras');
 	mainWindow = Titanium.UI.createWindow({
 		backgroundColor : '#fff',
 		navBarHidden : false,
-		fullscreen : true
+		fullscreen : true,
+		exitOnClose : true
 	});
-	mainWindow.addEventListener('open', function(e) {
-		abextras.setExtras({
-			title : 'TinyBrain',
-			subtitle : 'Chat with our experts'
-		});
-		var activity = mainWindow.activity;
-		if (activity) {
-			activity.onCreateOptionsMenu = function(e) {
-				var menu = e.menu;
-				for ( i = 0; i <= 3; i++) {
-					var menuItem = menu.add({
-						title : "Option " + i,
-						icon : Ti.Android.R.drawable.ic_menu_save,
-						showAsAction : Ti.Android.SHOW_AS_ACTION_NEVER
-					});
-					menuItem.addEventListener("click", function(e) {
-						Ti.API.info("Action Item " + i + " Clicked!");
-					});
-				}
-			};
-			var ab = activity.actionBar;
-			if (ab) {
-				ab.displayHomeAsUp = true;
-			} else {
-				alert('no actionbar');
-			}
-		} else {
-			alert('no activity');
-		}
-	});
-
+	mainWindow.addEventListener('open', require('ui/actionbar_menu.widget'));
 	mainWindow.open();
 	mainWindow.bg = Ti.UI.createImageView({
 		image : '/assets/brain.png',
@@ -55,7 +25,7 @@ exports.create = function() {
 		image : '/assets/logo.png'
 	});
 	logo.addEventListener('click', function() {
-		mainWindow.chatInput.blur();
+		mainWindow.chatInput && mainWindow.chatInput.blur();
 		require('ui/menu.widget').create();
 	});
 	topContainer.add(logo);
@@ -71,10 +41,6 @@ exports.create = function() {
 	topContainer.add(scrollContainer);
 	require('ui/selectbot.widget').create({
 		onselected : function(_id) {
-			abextras.setExtras({
-			title : 'TinyBrain',
-			subtitle : 'Chat with our expert '+ _id
-		});
 			console.log('Info: bot selected ' + _id);
 			mainWindow.bg.animate({
 				duration : 700,
@@ -103,3 +69,4 @@ exports.create = function() {
 		var res = require('ui/publish.widget').create(mainWindow);
 	});
 };
+

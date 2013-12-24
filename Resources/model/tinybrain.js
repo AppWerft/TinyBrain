@@ -15,6 +15,23 @@ exports.saveMe = function(me) {
 	f.write(me);
 };
 
+exports.killMe = function(me) {
+	if (!me)
+		return;
+	var f = Ti.Filesystem.getFile(Ti.Filesystem.applicationDataDirectory, 'me.png');
+	f.deleteFile(me);
+	Ti.App.fireEvent('app:killme', {});
+};
+
+exports.speak = function(text) {
+	var url = 'http://translate.google.com/translate_tts?tl=en&q=' + encodeURI(text);
+	var audioPlayer = Ti.Media.createAudioPlayer({
+		url : url,
+		allowBackground : true
+	});
+	audioPlayer.start();
+};
+
 exports.api = function(_options, _callback) {
 	if (!_options || !_callback)
 		return;

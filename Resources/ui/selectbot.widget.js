@@ -11,6 +11,7 @@ exports.create = function(_args) {
 				title : "Hello, I'm the TinyBraїn. Please choose a personality for me.",
 				options : options
 			});
+			Ti.App.TinyBrainProxy.speak("Hello, I'm the Tiny Brain. Please choose a personality for me.");
 			dialog.addEventListener('click', function(_e) {
 				if (_e.index >= 0) {
 					// persist the avatar URL
