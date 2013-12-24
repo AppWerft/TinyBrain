@@ -1,16 +1,17 @@
 exports.create = function() {
 	var androidView = Ti.UI.createView({
-		backgroundColor : 'white'
+		backgroundColor : 'white',
+		height : '200dp'
 	});
 	var widget = Ti.UI.createAlertDialog({
-		androidView : androidView,
 		cancel : 0,
 		buttonNames : ['Cancel', 'Change avatar'],
-		message : 'Here you can change the avatar image of chatbot',
-		title : 'Configuration of avatar'
+		title : 'Select an avatar',
+		androidView : androidView
 	});
 	widget.show();
-	// adding of imageselector to container:
+	
+	// adding of image selector to container:
 	var verticalscrollView = Ti.UI.createScrollView({
 		contentHeight : Ti.UI.SIZE,
 		height : Ti.UI.FILL,
@@ -19,7 +20,7 @@ exports.create = function() {
 		contentWidth : Ti.UI.FILL,
 		scrollType : 'vertical'
 	});
-	androidView.add(verticalscrollView);
+	
 	var femals = [], men = [];
 	for (var i = 1; i <= 4; i++) {
 		femals.push(Ti.UI.createImageView({
@@ -44,5 +45,5 @@ exports.create = function() {
 	});
 	verticalscrollView.add(femalsrow);
 	verticalscrollView.add(menrow);
-	
+	androidView.add(verticalscrollView);
 };
