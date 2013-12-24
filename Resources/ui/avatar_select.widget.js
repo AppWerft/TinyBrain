@@ -8,7 +8,7 @@ exports.create = function() {
 		buttonNames : ['Cancel', 'Change avatar'],
 		title : 'Select an avatar',
 		androidView : androidView
-	});
+	});   
 	widget.show();
 	// adding of image selector to container:
 	var verticalscrollView = Ti.UI.createScrollView({
