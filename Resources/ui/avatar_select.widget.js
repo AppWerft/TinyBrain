@@ -10,7 +10,6 @@ exports.create = function() {
 		androidView : androidView
 	});
 	widget.show();
-	
 	// adding of image selector to container:
 	var verticalscrollView = Ti.UI.createScrollView({
 		contentHeight : Ti.UI.SIZE,
